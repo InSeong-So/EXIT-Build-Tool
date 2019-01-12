@@ -66,7 +66,7 @@ repositories {
 dependencies {
     // 의존 라이브러리를 'group:name:version' 형식으로 지정했는데 이는 단축 형식이라는 생략 기법이다.
     // 생략하지 않을 경우 'compile group:'', name:'', version:''
-    // 의존 라이브러리를 지정할 때는 compile 또는 testCompile 키워드를 사용하는데, Java 플러그인으로 정의된 환경 구성이라는 의미이다.
+    // 의존 라이브러리를 지정할 때는 compile 또는 testCompile 키워드를 사용한다.
     // compile : 프로덕션 코드를 컴파일하고 실행할 때 필요
     // testCompile : 테스트 코드를 컴파일하고 실행할 때 필요
     api 'org.apache.commons:commons-math3:3.6.1'
