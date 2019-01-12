@@ -1,6 +1,6 @@
 # Gradle(입문용 공부)
 
-## 설치[ CLI(Command Line Interface), CentOS7 사용 ]
+### 설치[ CLI(Command Line Interface), CentOS7 사용 ]
 > 설치 전제 조건
 >> JDK 6 이상 설치 / Spring Boot 설치도 겸함
 ```sh
@@ -28,7 +28,7 @@ sdk install gradle
 gradle -v
 ```
 
-## init 태스크를 이용한 프로젝트 자동 생성
+### init 태스크를 이용한 프로젝트 자동 생성
 ```sh
 gradle init --type java-library
 ```
