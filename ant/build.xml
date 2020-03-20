@@ -24,17 +24,13 @@
   <property name="svn.user.id">319883</property>
   <property name="svn.user.pw">sisparang1!</property>
 
-  <property name="last.update">
-    03/20/2020 12:20 PM
-  </property>
-
   <!-- Option Configuration -->
   <tstamp>
   <!-- locale="en,US" offset="-3" unit="hour" /> -->
   <!--현재 날짜 -->
       <format property="TODATE" pattern="yyyyMMddhh" />
       <format property="TIMESTAMP1" pattern="MM/dd/yyyy hh:mm aaa"
-              locale="en,US" unit="hour" />
+              locale="en,US" offset="-1" unit="hour" />
   </tstamp>
   <property name="checkout.dir.todate" location="${checkout.dir}/${TODATE}" />
   
@@ -42,33 +38,6 @@
   <!-- 사용시 부르는 target으로, svn 관련 작업을 수행한다.
           만약 이미 checkout 했다면 update 를, 그렇지 않다면 checkout 한다.  -->
   <target name="get_project" depends="svn_checkout,svn_update">
-    <echo message="Checkout Confirm" />
-  </target>
-
-  <!-- checkout 폴더 존재여부를 확인하여 update할지, checkout 할지 판단한다 -->
-  <target name="check_export_empty">
-    <available file="${checkout.dir}" property="svn_export.exists"/>
-  </target>
-
-  <!-- 만약 checkout 폴더가 없다면, checkout한다 -->
-  <target name="svn_checkout" depends="check_export_empty" unless="svn_export.exists">
-    <echo message="Checkout Excute" />
-    <svn username="${svn.user.id}" password="${svn.user.pw}" svnkit="true" javahl="false">
-      <checkout url="${svn.url}"  destPath="${checkout.dir}" />
-      <checkout url="${svn.url2}"  destPath="${checkout.dir2}" />
-    </svn>
-  </target>
-
-  <!-- 만약 checkout 폴더가 있다면, update한다 -->
-  <target name="svn_update" if="svn_export.exists">
-    <svn username="${svn.user.id}" password="${svn.user.pw}" svnkit="true" javahl="false">
-      <update dir="${checkout.dir}" recurse="true"/>
-      <update dir="${checkout.dir2}" recurse="true"/>
-    </svn>   
-    <echo message="SVN Update [Finished : ${TIMESTAMP1}]" />
-  </target>
-
-  <target name="update_file_copy" depends="svn_update">
     <copy toDir="${updatefile.dir}"
           verbose="true"
           overwrite="true">
@@ -96,7 +65,7 @@
         <exclude name="**/file/**/*.*" />
         <exclude name="**/log.jsp" />
         <exclude name="**/log4j.lcf" />
-        <date datetime="${last.update}" when="after"/>
+        <date datetime="${TIMESTAMP1}" when="after"/>
       </fileset>
     </copy>
     <echo message="File Copy1 [Finished : ${TIMESTAMP1}]" />
@@ -127,10 +96,33 @@
         <exclude name="**/file/**/*.*" />
         <exclude name="**/log.jsp" />
         <exclude name="**/log4j.lcf" />
-        <date datetime="${last.update}" when="after"/>
+        <date datetime="${TIMESTAMP1}" when="after"/>
       </fileset>
     </copy>
     <echo message="File Copy2 [Finished : ${TIMESTAMP1}]" />
+  </target>
+
+  <!-- checkout 폴더 존재여부를 확인하여 update할지, checkout 할지 판단한다 -->
+  <target name="check_export_empty">
+    <available file="${checkout.dir}" property="svn_export.exists"/>
+  </target>
+
+  <!-- 만약 checkout 폴더가 없다면, checkout한다 -->
+  <target name="svn_checkout" depends="check_export_empty" unless="svn_export.exists">
+    <echo message="Checkout Excute" />
+    <svn username="${svn.user.id}" password="${svn.user.pw}" svnkit="true" javahl="false">
+      <checkout url="${svn.url}"  destPath="${checkout.dir}" />
+      <checkout url="${svn.url2}"  destPath="${checkout.dir2}" />
+    </svn>
+  </target>
+
+  <!-- 만약 checkout 폴더가 있다면, update한다 -->
+  <target name="svn_update" if="svn_export.exists">
+    <svn username="${svn.user.id}" password="${svn.user.pw}" svnkit="true" javahl="false">
+      <update dir="${checkout.dir}" recurse="true"/>
+      <update dir="${checkout.dir2}" recurse="true"/>
+    </svn>   
+    <echo message="SVN Update [Finished : ${TIMESTAMP1}]" />
   </target>
 
 </project>
